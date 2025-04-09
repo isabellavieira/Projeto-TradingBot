@@ -28,7 +28,7 @@
         <url/>
     </scm>
     <properties>
-        <java.version>23</java.version>
+        <java.version>17</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -82,8 +82,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>23</source> <!-- Usando Java 23 -->
-                    <target>23</target> <!-- Usando Java 23 -->
+                    <source>17</source> <!-- Usando Java 17 -->
+                    <target>17</target> <!-- Usando Java 17 -->
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
