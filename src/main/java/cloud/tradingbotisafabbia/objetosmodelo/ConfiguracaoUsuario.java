@@ -19,4 +19,9 @@ public class ConfiguracaoUsuario {
 
     @Column(nullable = false)
     private Double quantidadePorPedido;
+
+    // Relacionamento ManyToOne com a classe Usuario
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id", nullable = false)
+    private Usuario usuario;
 }

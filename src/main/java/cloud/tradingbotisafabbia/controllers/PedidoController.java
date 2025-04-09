@@ -4,20 +4,21 @@ import cloud.tradingbotisafabbia.objetosmodelo.Usuario;
 import cloud.tradingbotisafabbia.objetosmodelo.RelatorioPedidoUsuario;
 import cloud.tradingbotisafabbia.repositorios.RelatorioPedidoUsuarioRepository;
 import cloud.tradingbotisafabbia.repositorios.UsuarioRepository;
-import cloud.tradingbotisafabbia.request.PedidoRequest;
-import cloud.tradingbotisafabbia.response.PedidoResponse;
-import cloud.tradingbotisafabbia.service.BinanceService;
-import com.binance.connector.client.exceptions.BinanceConnectorException;
+import cloud.tradingbotisafabbia.resquest.PedidoRequest;
+import cloud.tradingbotisafabbia.response.RespostaPedido;
+import cloud.tradingbotisafabbia.service.IntegracaoBinance;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-    
+
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/usuarios/{id}/pedidos")
+@RequestMapping("{id}/pedidos")
 public class PedidoController {
 
     @Autowired
@@ -27,44 +28,54 @@ public class PedidoController {
     private RelatorioPedidoUsuarioRepository relatorioPedidoUsuarioRepository;
 
     @Autowired
-    private BinanceService binanceService;
+    private IntegracaoBinance integracaoBinance;
+
 
     @PostMapping
-    public ResponseEntity<PedidoResponse> criarPedido(@PathVariable("id") int id, @RequestBody PedidoRequest request) {
+    public ResponseEntity<RespostaPedido> criarPedido(@PathVariable("id") int id, @RequestBody PedidoRequest request) {
 
-        Optional<Usuario> optUsuario = usuarioRepository.findById(id);
+        Optional<Usuario> optUsuario = this.usuarioRepository.findById(id);
 
-        if (optUsuario.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        if (optUsuario.isEmpty())
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
 
+        // Pego os dados do usuário no banco
         Usuario usuario = optUsuario.get();
 
-        // Configuração da chave da API para o usuário
-        binanceService.setApiKey(usuario.getChaveApiBinance());
-        binanceService.setApiSecret(usuario.getChaveSecretaBinance());
+        // Configurando a chave de acesso para Binance
+        this.integracaoBinance.setChaveApi(usuario.getChaveApiBinance());
+        this.integracaoBinance.setChaveSecreta(usuario.getChaveSecretaBinance());
 
+        // Enviando a ordem
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         try {
-            // Enviar ordem de compra ou venda para a Binance
-            String resultado = binanceService.criarOrdemMercado(request.getSimbolo(), request.getQuantidade(), request.getLado());
-            PedidoResponse response = binanceService.processarResultadoOrdem(resultado);
+            String result = this.integracaoBinance.criarOrdemMercado(request.getSimbolo(),
+                    request.getQuantidade(),
+                    request.getLado());
+            RespostaPedido resposta = objectMapper.readValue(result, RespostaPedido.class);
 
-            // Registrando o relatório de pedido no banco
+            // Grava na tabela a nova ordem de compra
             if ("BUY".equals(request.getLado())) {
                 RelatorioPedidoUsuario relatorio = new RelatorioPedidoUsuario();
                 relatorio.setSimbolo(request.getSimbolo());
                 relatorio.setQuantidade(request.getQuantidade());
-                relatorio.setPrecoCompra(response.getPrecoCompra());
+                relatorio.setPrecoCompra(resposta.getPreenchimentos().get(0).getPreco());
                 relatorio.setDataHoraOperacao(LocalDateTime.now());
 
-                relatorioPedidoUsuarioRepository.save(relatorio);
+                // Grava na base a operação
+                this.relatorioPedidoUsuarioRepository.save(relatorio);
+
+                // Grava a operação para o usuário
                 usuario.getRelatoriosPedidos().add(relatorio);
-                usuarioRepository.save(usuario);
+                this.usuarioRepository.save(usuario);
             }
 
+            // Grava o preço de venda
             if ("SELL".equals(request.getLado())) {
                 RelatorioPedidoUsuario relatorio = null;
                 for (RelatorioPedidoUsuario item : usuario.getRelatoriosPedidos()) {
+                    // Achei a operação de compra anterior
                     if (item.getSimbolo().equals(request.getSimbolo()) && item.getPrecoVenda() == 0) {
                         relatorio = item;
                         break;
@@ -72,15 +83,15 @@ public class PedidoController {
                 }
 
                 if (relatorio != null) {
-                    relatorio.setPrecoVenda(response.getPrecoVenda());
-                    relatorioPedidoUsuarioRepository.save(relatorio);
+                    relatorio.setPrecoVenda(resposta.getPreenchimentos().get(0).getPreco());
+                    this.relatorioPedidoUsuarioRepository.save(relatorio);
                 }
             }
 
-            return new ResponseEntity<>(response, HttpStatus.OK);
-
-        } catch (BinanceConnectorException e) {
+            return new ResponseEntity<>(resposta, HttpStatus.OK);
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+
     }
 }

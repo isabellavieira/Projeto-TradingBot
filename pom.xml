@@ -5,31 +5,37 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.4</version>
+        <version>3.4.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>cloud</groupId>
-    <artifactId>TradingBot-IsaFabBia</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>TradingBot-IsaFabBia</name>
-    <description>TradingBot-IsaFabBia</description>
+    <!-- Identificação do seu projeto -->
+    <groupId>cloud</groupId> <!-- Aqui você coloca o nome do seu grupo, que no seu caso seria 'cloud' -->
+    <artifactId>TradingBot-IsaFabBia</artifactId> <!-- Nome do artefato (nome do seu projeto) -->
+    <version>0.0.1-SNAPSHOT</version> <!-- Versão do seu projeto -->
+    <name>TradingBot-IsaFabBia</name> <!-- Nome do seu projeto -->
+    <description>Demo project for Spring Boot</description>
+    <url/>
+    <licenses>
+        <license/>
+    </licenses>
+    <developers>
+        <developer/>
+    </developers>
+    <scm>
+        <connection/>
+        <developerConnection/>
+        <tag/>
+        <url/>
+    </scm>
     <properties>
-        <java.version>17</java.version>
-        <spring-ai.version>1.0.0-M6</spring-ai.version>
+        <java.version>21</java.version>
     </properties>
-
-    <repositories>
-        <repository>
-            <id>binance-repo</id>
-            <url>https://repo.binance.com</url>
-        </repository>
-        <repository>
-            <id>microsoft-repo</id>
-            <url>https://maven.microsoft.com</url>
-        </repository>
-    </repositories>
-
     <dependencies>
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>3.1.0</version>  <!-- Versão mais recente disponível -->
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -41,11 +47,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.persistence</groupId>
-            <artifactId>jakarta.persistence-api</artifactId>
-            <version>3.1.0</version>  <!-- Versão mais recente disponível -->
         </dependency>
 
         <dependency>
@@ -65,12 +66,6 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
@@ -80,18 +75,6 @@
             <version>2.17.2</version>
         </dependency>
     </dependencies>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.ai</groupId>
-                <artifactId>spring-ai-bom</artifactId>
-                <version>${spring-ai.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>

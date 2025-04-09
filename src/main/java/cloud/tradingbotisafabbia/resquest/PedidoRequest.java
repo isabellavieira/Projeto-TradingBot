@@ -1,4 +1,4 @@
-package cloud.tradingbotisafabbia.request;
+package cloud.tradingbotisafabbia.resquest;
 
 import lombok.Data;
 
