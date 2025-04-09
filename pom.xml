@@ -104,11 +104,4 @@
         </plugins>
     </build>
 
-    <distributionManagement>
-        <repository>
-            <id>my-repository</id>
-            <url>https://github.com/isabellavieira/Projeto-TradingBot.git</url>
-        </repository>
-    </distributionManagement>
-
 </project>
