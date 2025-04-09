@@ -105,4 +105,11 @@
         </plugins>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>my-repository</id>
+            <url>https://my.repository.url</url> <!-- Substitua pela URL do seu repositório -->
+        </repository>
+    </distributionManagement>
+
 </project>
