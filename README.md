@@ -79,7 +79,3 @@ Este projeto tem como objetivo desenvolver um **Trading Bot** que utiliza a API 
 - Apresentar o funcionamento do bot e os relatórios gerados.
 
 ---
-
-## Licença
-
-Este projeto é licenciado sob a Licença MIT - consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
