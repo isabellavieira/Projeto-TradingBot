@@ -77,5 +77,3 @@ Este projeto tem como objetivo desenvolver um **Trading Bot** que utiliza a API 
 
 - Documentar todas as funcionalidades implementadas e os processos de configuração.
 - Apresentar o funcionamento do bot e os relatórios gerados.
-
----
