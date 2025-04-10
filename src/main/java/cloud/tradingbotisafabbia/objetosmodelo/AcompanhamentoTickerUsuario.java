@@ -14,7 +14,7 @@ public class AcompanhamentoTickerUsuario {
     private Integer id;
 
     @Column
-    private String simbolo;
+    private String symbol;
 
     @Setter
     @ManyToOne

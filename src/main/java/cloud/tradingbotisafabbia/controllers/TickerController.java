@@ -40,7 +40,7 @@ public class TickerController {
 
         // Adicionando os símbolos para consulta
         for (AcompanhamentoTickerUsuario item : usuario.getAcompanhamentoTickers()) {
-            simbolos.add(item.getSimbolo());
+            simbolos.add(item.getSymbol());
         }
 
         if (simbolos.isEmpty()) {
