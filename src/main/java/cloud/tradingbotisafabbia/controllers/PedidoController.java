@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("{id}/pedidos")
+@RequestMapping("/{id}/pedidos")
 public class PedidoController {
 
     @Autowired
@@ -43,16 +43,14 @@ public class PedidoController {
         Usuario usuario = optUsuario.get();
 
         // Configurando a chave de acesso para Binance
-        this.integracaoBinance.setChaveApi(usuario.getChaveApiBinance());
-        this.integracaoBinance.setChaveSecreta(usuario.getChaveSecretaBinance());
+        integracaoBinance.setChaveApi(usuario.getChaveApiBinance());
+        integracaoBinance.setChaveSecreta(usuario.getChaveSecretaBinance());
 
         // Enviando a ordem
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         try {
-            String result = this.integracaoBinance.criarOrdemMercado(request.getSimbolo(),
-                    request.getQuantidade(),
-                    request.getLado());
+            String result = this.integracaoBinance.criarOrdemMercado(request.getSimbolo(),request.getQuantidade(),request.getLado());
             RespostaPedido resposta = objectMapper.readValue(result, RespostaPedido.class);
 
             // Grava na tabela a nova ordem de compra

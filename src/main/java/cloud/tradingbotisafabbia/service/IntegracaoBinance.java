@@ -12,7 +12,6 @@ import java.util.Map;
 @Service
 @Data
 public class IntegracaoBinance {
-
     private String urlBase = "https://testnet.binance.vision";  // URL da API de teste da Binance
     private String chaveApi;  // Chave de API da Binance
     private String chaveSecreta;  // Chave secreta da Binance
@@ -42,10 +41,22 @@ public class IntegracaoBinance {
         }
         SpotClient cliente = obterCliente();
         Map<String, Object> parametros = new LinkedHashMap<>();
-        parametros.put("symbol", simbolo);
+        parametros.put("symbol", simbolo);  // O símbolo do par de criptomoedas (ex: ETHUSDT)
         parametros.put("side", lado);  // Define o lado da ordem (compra ou venda)
         parametros.put("type", "MARKET");  // Tipo de ordem (mercado)
-        parametros.put("quantity", quantidade);  // Define a quantidade de ativos para a ordem
-        return cliente.createTrade().newOrder(parametros);  // Executa a ordem no mercado
+        parametros.put("quantity", quantidade);  // A quantidade para a ordem
+
+        try {
+            // Executa a ordem no mercado e obtém a resposta
+            String resposta = cliente.createTrade().newOrder(parametros);
+            // Verifica se a resposta contém erro e retorna a resposta
+            if (resposta.contains("erro")) {
+                return resposta;  // Caso haja erro, retorna a resposta da API com o erro
+            }
+            return resposta;  // Caso a ordem seja bem-sucedida, retorna a resposta da Binance
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "{\"erro\":\"Falha na comunicação com a Binance\"}";  // Caso haja erro na comunicação, retorna erro
+        }
     }
 }
