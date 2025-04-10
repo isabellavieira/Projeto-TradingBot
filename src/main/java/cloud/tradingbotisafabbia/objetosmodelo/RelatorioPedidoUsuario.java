@@ -19,6 +19,7 @@ public class RelatorioPedidoUsuario {
     @Column(nullable = false)
     private double quantity;
 
+
     @Column
     private double precoCompra;
 
