@@ -6,10 +6,10 @@ import java.util.List;
 
 @Data
 public class RespostaPedido {
-    private String simbolo;
-    private String idPedido;
-    private BigDecimal quantidadeExecutada;
-    private String tipo;
-    private String lado;
-    private List<RespostaPreenchimentoPedido> preenchimentos;
+    private String symbol;
+    private String orderId;
+    private BigDecimal executedQty;
+    private String type;
+    private String side;
+    private List<RespostaPreenchimentoPedido> Fills;
 }

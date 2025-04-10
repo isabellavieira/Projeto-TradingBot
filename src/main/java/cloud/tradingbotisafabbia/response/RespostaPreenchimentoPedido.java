@@ -5,6 +5,6 @@ import java.math.BigDecimal;
 
 @Data
 public class RespostaPreenchimentoPedido {
-    private double preco;
-    private BigDecimal quantidade;
+    private double price;
+    private BigDecimal quantity;
 }

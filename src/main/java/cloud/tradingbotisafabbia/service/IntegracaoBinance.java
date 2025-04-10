@@ -22,29 +22,29 @@ public class IntegracaoBinance {
     }
 
     // Método para obter os preços dos símbolos
-    public String obterTickers(ArrayList<String> simbolos) {
+    public String obterTickers(ArrayList<String> symbol) {
 
-        if (simbolos == null || simbolos.isEmpty()) {
+        if (symbol == null || symbol.isEmpty()) {
             return "[]";  // Retorna um array vazio caso a lista de símbolos seja nula ou vazia
         }
         SpotClient cliente = obterCliente();
         Map<String, Object> parametros = new LinkedHashMap<>();
-        parametros.put("symbols", simbolos);  // Adiciona os símbolos aos parâmetros
+        parametros.put("symbols", symbol);  // Adiciona os símbolos aos parâmetros
         return cliente.createMarket().ticker(parametros);  // Faz a requisição para obter os tickers
     }
 
     // Método para criar uma ordem de mercado
-    public String criarOrdemMercado(String simbolo, double quantidade, String lado) {
+    public String criarOrdemMercado(String symbol, double quantity, String side) {
 
-        if (simbolo == null || simbolo.isEmpty() || quantidade <= 0 || lado == null || lado.isEmpty()) {
+        if (symbol == null || symbol.isEmpty() || quantity <= 0 || side == null || side.isEmpty()) {
             return "{\"erro\":\"Parâmetros inválidos\"}";  // Retorna erro caso algum parâmetro seja inválido
         }
         SpotClient cliente = obterCliente();
         Map<String, Object> parametros = new LinkedHashMap<>();
-        parametros.put("symbol", simbolo);  // O símbolo do par de criptomoedas (ex: ETHUSDT)
-        parametros.put("side", lado);  // Define o lado da ordem (compra ou venda)
+        parametros.put("symbol", symbol);  // O símbolo do par de criptomoedas (ex: ETHUSDT)
+        parametros.put("side", side);  // Define o lado da ordem (compra ou venda)
         parametros.put("type", "MARKET");  // Tipo de ordem (mercado)
-        parametros.put("quantity", quantidade);  // A quantidade para a ordem
+        parametros.put("quantity", quantity);  // A quantidade para a ordem
 
         try {
             // Executa a ordem no mercado e obtém a resposta

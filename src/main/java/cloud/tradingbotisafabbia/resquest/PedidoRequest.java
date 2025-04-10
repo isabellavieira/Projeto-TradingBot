@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class PedidoRequest {
-    private String simbolo;
-    private String lado;
-    private double quantidade;
-    private double preco;
+    private String symbol;
+    private String side;
+    private double quantity;
+    private double price;
 }

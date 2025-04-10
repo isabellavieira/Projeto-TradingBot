@@ -14,10 +14,10 @@ public class RelatorioPedidoUsuario {
     private int id;
 
     @Column
-    private String simbolo;
+    private String symbol;
 
     @Column(nullable = false)
-    private double quantidade;
+    private double quantity;
 
     @Column
     private double precoCompra;

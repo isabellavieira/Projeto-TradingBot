@@ -50,15 +50,16 @@ public class PedidoController {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         try {
-            String result = this.integracaoBinance.criarOrdemMercado(request.getSimbolo(),request.getQuantidade(),request.getLado());
+            String result = this.integracaoBinance.criarOrdemMercado(request.getSymbol(),request.getQuantity(),request.getSide());
             RespostaPedido resposta = objectMapper.readValue(result, RespostaPedido.class);
 
+
             // Grava na tabela a nova ordem de compra
-            if ("BUY".equals(request.getLado())) {
+            if ("BUY".equals(request.getSide())) {
                 RelatorioPedidoUsuario relatorio = new RelatorioPedidoUsuario();
-                relatorio.setSimbolo(request.getSimbolo());
-                relatorio.setQuantidade(request.getQuantidade());
-                relatorio.setPrecoCompra(resposta.getPreenchimentos().get(0).getPreco());
+                relatorio.setSymbol(request.getSymbol());
+                relatorio.setQuantity(request.getQuantity());
+                relatorio.setPrecoCompra(resposta.getFills().get(0).getPrice());
                 relatorio.setDataHoraOperacao(LocalDateTime.now());
 
                 // Grava na base a operação
@@ -70,18 +71,18 @@ public class PedidoController {
             }
 
             // Grava o preço de venda
-            if ("SELL".equals(request.getLado())) {
+            if ("SELL".equals(request.getSide())) {
                 RelatorioPedidoUsuario relatorio = null;
                 for (RelatorioPedidoUsuario item : usuario.getRelatoriosPedidos()) {
                     // Achei a operação de compra anterior
-                    if (item.getSimbolo().equals(request.getSimbolo()) && item.getPrecoVenda() == 0) {
+                    if (item.getSymbol().equals(request.getSymbol()) && item.getPrecoVenda() == 0) {
                         relatorio = item;
                         break;
                     }
                 }
 
                 //Grava o preço de saida da operação
-                relatorio.setPrecoVenda(resposta.getPreenchimentos().get(0).getPreco());
+                relatorio.setPrecoVenda(resposta.getFills().get(0).getPrice());
 
                 //Grava na base a operação
                 this.relatorioPedidoUsuarioRepository.save(relatorio);

@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class RespostaTicker {
-    private String simbolo;
+    private String symbol;
     private double ultimoPreco;
 }
