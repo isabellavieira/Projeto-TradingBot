@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/{id}/tickers")
+@RequestMapping("{id}/tickers")
 public class TickerController {
 
     @Autowired

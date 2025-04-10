@@ -70,12 +70,15 @@ public class UsuarioController {
         if (optUsuario.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        // Associa o usuário ao ticker
+        Usuario usuario = optUsuario.get();
+        ticker.setUsuario(usuario); // Fazendo a associação corretamente
+
         // Salva o ticker no banco de dados
         acompanhamentoTickerUsuarioRepository.save(ticker);
 
         // Associa o ticker ao usuário
-        Usuario usuario = optUsuario.get();
-        usuario.getAcompanhamentoTickers().add(ticker);
+        usuario.getAcompanhamentoTickers().add(ticker); // Adiciona o ticker à lista de tickers do usuário
         usuarioRepository.save(usuario);
 
         return new ResponseEntity<>(usuario, HttpStatus.CREATED);

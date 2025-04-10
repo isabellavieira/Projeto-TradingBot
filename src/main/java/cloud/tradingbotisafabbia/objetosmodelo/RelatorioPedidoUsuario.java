@@ -13,18 +13,18 @@ public class RelatorioPedidoUsuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
+    @Column
     private String simbolo;
 
     @Column(nullable = false)
     private double quantidade;
 
-    @Column(nullable = false)
+    @Column
     private double precoCompra;
 
-    @Column(nullable = false)
+    @Column
     private double precoVenda;
 
-    @Column(nullable = false)
+    @Column
     private LocalDateTime dataHoraOperacao;
 }

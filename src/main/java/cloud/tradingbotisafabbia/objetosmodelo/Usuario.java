@@ -2,6 +2,7 @@ package cloud.tradingbotisafabbia.objetosmodelo;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.List;
 
@@ -30,10 +31,12 @@ public class Usuario {
 
     @OneToMany
     @JoinColumn(name = "id_usuario", referencedColumnName = "id")
+    @JsonManagedReference
     private List<ConfiguracaoUsuario> configuracoes;
 
     @OneToMany
     @JoinColumn(name = "id_usuario", referencedColumnName = "id")
+    @JsonManagedReference
     private List<AcompanhamentoTickerUsuario> acompanhamentoTickers;
 
     @OneToMany
