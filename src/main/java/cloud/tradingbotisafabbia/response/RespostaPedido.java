@@ -11,5 +11,5 @@ public class RespostaPedido {
     private BigDecimal executedQty;
     private String type;
     private String side;
-    private List<RespostaPreenchimentoPedido> Fills;
+    private List<RespostaPreenchimentoPedido> fills;
 }
