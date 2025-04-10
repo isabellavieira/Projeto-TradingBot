@@ -35,30 +35,33 @@ public class TickerController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        // Pego os dados do usuário no banco
         Usuario usuario = optUsuario.get();
-
-        // Obtendo as moedas que o usuário acompanha
         ArrayList<String> simbolos = new ArrayList<>();
+
+        // Adicionando os símbolos para consulta
         for (AcompanhamentoTickerUsuario item : usuario.getAcompanhamentoTickers()) {
             simbolos.add(item.getSimbolo());
         }
 
-        // Configurando as chaves de acesso para a Binance
+        if (simbolos.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Não tem tickers associados
+        }
+
+        // Configurações da API Binance
         this.integracaoBinance.setChaveApi(usuario.getChaveApiBinance());
         this.integracaoBinance.setChaveSecreta(usuario.getChaveSecretaBinance());
 
-        // Obtendo os preços mais recentes das moedas cadastradas para o usuário
         String resultado = this.integracaoBinance.obterTickers(simbolos);
 
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         try {
-            List<RespostaTicker> resposta = objectMapper.readValue(resultado,
-                    new TypeReference<List<RespostaTicker>>() {});
+            List<RespostaTicker> resposta = objectMapper.readValue(resultado, new TypeReference<List<RespostaTicker>>() {});
             return new ResponseEntity<>(resposta, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
 }

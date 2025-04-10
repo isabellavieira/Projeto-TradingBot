@@ -2,6 +2,7 @@ package cloud.tradingbotisafabbia.objetosmodelo;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Setter;
 
 @Data
 @Entity
@@ -11,17 +12,18 @@ public class ConfiguracaoUsuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column
     private Double percentualPerda;
 
-    @Column(nullable = false)
+    @Column
     private Double percentualLucro;
 
-    @Column(nullable = false)
+    @Column
     private Double quantidadePorPedido;
 
-    // Relacionamento ManyToOne com a classe Usuario
+    @Setter
     @ManyToOne
-    @JoinColumn(name = "usuario_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario usuario;
+
 }

@@ -10,7 +10,7 @@ import java.util.List;
 public class Usuario {
 
     @Id
-    @GeneratedValue(strategy     = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false)
@@ -25,10 +25,11 @@ public class Usuario {
     @Column(nullable = false)
     private String chaveSecretaBinance;
 
-    @Column(nullable = false)
+    @Column
     private Double saldoInicio;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id")
     private List<ConfiguracaoUsuario> configuracoes;
 
     @OneToMany

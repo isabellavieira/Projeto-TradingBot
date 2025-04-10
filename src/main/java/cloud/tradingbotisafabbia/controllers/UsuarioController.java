@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
@@ -48,16 +47,21 @@ public class UsuarioController {
         if (optUsuario.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        // Associa o usuário à configuração antes de salvar
+        Usuario usuario = optUsuario.get();
+        configuracao.setUsuario(usuario); // A associação correta
+
         // Salva a configuração no banco de dados
         configuracaoUsuarioRepository.save(configuracao);
-        
+
         // Associa a configuração ao usuário
-        Usuario usuario = optUsuario.get();
         usuario.getConfiguracoes().add(configuracao);
         usuarioRepository.save(usuario);
 
         return new ResponseEntity<>(usuario, HttpStatus.CREATED);
     }
+
 
     // Associa um ticker de acompanhamento ao usuário
     @PostMapping("/{id}/acompanhamento-ticker")
@@ -68,7 +72,7 @@ public class UsuarioController {
         }
         // Salva o ticker no banco de dados
         acompanhamentoTickerUsuarioRepository.save(ticker);
-        
+
         // Associa o ticker ao usuário
         Usuario usuario = optUsuario.get();
         usuario.getAcompanhamentoTickers().add(ticker);

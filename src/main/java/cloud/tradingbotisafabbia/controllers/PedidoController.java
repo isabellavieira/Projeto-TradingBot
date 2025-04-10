@@ -82,10 +82,11 @@ public class PedidoController {
                     }
                 }
 
-                if (relatorio != null) {
-                    relatorio.setPrecoVenda(resposta.getPreenchimentos().get(0).getPreco());
-                    this.relatorioPedidoUsuarioRepository.save(relatorio);
-                }
+                //Grava o preço de saida da operação
+                relatorio.setPrecoVenda(resposta.getPreenchimentos().get(0).getPreco());
+
+                //Grava na base a operação
+                this.relatorioPedidoUsuarioRepository.save(relatorio);
             }
 
             return new ResponseEntity<>(resposta, HttpStatus.OK);
