@@ -37,7 +37,7 @@ public class PedidoController {
         Optional<Usuario> optUsuario = this.usuarioRepository.findById(id);
 
         if (optUsuario.isEmpty())
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<RespostaPedido>(HttpStatus.NOT_FOUND);
 
         // Pego os dados do usuário no banco
         Usuario usuario = optUsuario.get();
@@ -82,10 +82,15 @@ public class PedidoController {
                 }
 
                 //Grava o preço de saida da operação
-                relatorio.setPrecoVenda(resposta.getFills().get(0).getPrice());
+                if (relatorio != null) {
+                    relatorio.setPrecoVenda(resposta.getFills().get(0).getPrice());
 
-                //Grava na base a operação
-                this.relatorioPedidoUsuarioRepository.save(relatorio);
+                    //Grava na base a operação
+                    this.relatorioPedidoUsuarioRepository.save(relatorio);
+                } else {
+                    // Não encontrou operação de compra correspondente
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
             }
 
             return new ResponseEntity<>(resposta, HttpStatus.OK);

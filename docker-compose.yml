@@ -5,8 +5,8 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=admin
       - MYSQL_DATABASE=ibmec-trading-bot
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=admin
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=admin123
     ports:
       - "3301:3306"
     volumes:
@@ -19,7 +19,7 @@ services:
       - db
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/ibmec-trading-bot
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=admin
+      - SPRING_DATASOURCE_USERNAME=mysql
+      - SPRING_DATASOURCE_PASSWORD=admin123
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - SPRING_JPA_SHOW_SQL=true
