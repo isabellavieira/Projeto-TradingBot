@@ -44,5 +44,5 @@ jobs:
       - name: Build Docker image and Push
         run: |
           docker-compose build
-          docker tag trading-bot projetocloudisafabia.azurecr.io/trading-bot:v2
-          docker push projetocloudisafabia.azurecr.io/trading-bot:v2
+          docker tag projeto-tradingbot-app projetocloudisafabia.azurecr.io/projeto-tradingbot-app:v2
+          docker push projetocloudisafabia.azurecr.io/projeto-tradingbot-app:v2
