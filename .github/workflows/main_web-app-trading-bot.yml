@@ -38,8 +38,8 @@ jobs:
         uses: azure/docker-login@v1
         with:
           login-server: projetocloudisafabia.azurecr.io
-          username: ${{secrets.projetocloudisafabia}}
-          password: ${{secrets.MVEgz5knUEQCaD3rnn2gFqHoQv0CzbNQt/59GVSKaR+ACRD2/O7O}}
+          username: projetocloudisafabia
+          password: MVEgz5knUEQCaD3rnn2gFqHoQv0CzbNQt/59GVSKaR+ACRD2/O7O
       
       - name: Build Docker image and Push
         run: |
