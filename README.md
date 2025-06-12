@@ -15,7 +15,6 @@ Este projeto tem como objetivo desenvolver um **Trading Bot** que utiliza a API 
 - **Azure App Service**: Para hospedagem do bot na nuvem.
 - **Docker compose**: Para containerização do bot e suas dependências, garantindo portabilidade e escalabilidade entre diferentes ambientes 
 - **Azure Container Registry** : Para armazenar as imagens Docker que são consumidas pelo Azure App Service for Containers.
-- 
 ---
 
 ## Funcionalidades Principais
