@@ -13,7 +13,9 @@ Este projeto tem como objetivo desenvolver um **Trading Bot** que utiliza a API 
 - **API da Binance**: Para realizar operações de compra e venda de criptomoedas.
 - **Azure SQL Database**: Para armazenamento de transações e relatórios de desempenho.
 - **Azure App Service**: Para hospedagem do bot na nuvem.
-
+- **Docker compose**: Para containerização do bot e suas dependências, garantindo portabilidade e escalabilidade entre diferentes ambientes 
+- **Azure Container Registry** : Para armazenar as imagens Docker que são consumidas pelo Azure App Service for Containers.
+- 
 ---
 
 ## Funcionalidades Principais
@@ -32,6 +34,7 @@ Este projeto tem como objetivo desenvolver um **Trading Bot** que utiliza a API 
 
 - **Armazenamento de Relatórios**: O sistema armazenará relatórios detalhados sobre a performance das transações ao longo do tempo.
 
+- **Armazenamento de Imagem Docker**: A imagem Docker da aplicação será armazenada no Azure Container Registry, garantindo que as versões da imagem sejam gerenciadas de forma segura e eficiente, e permitindo que o Azure App Service for Containers consuma essa imagem para a execução do bot na nuvem.
 ---
 
 ## Hospedagem e Escalabilidade
@@ -42,6 +45,7 @@ Este projeto tem como objetivo desenvolver um **Trading Bot** que utiliza a API 
 
 - **Azure SQL Database**: Utilizado para armazenamento em nuvem de transações e usuários.
 
+- **Azure Container Registry**: As imagens Docker do bot serão armazenadas no Azure Container Registry, permitindo um gerenciamento centralizado e seguro das imagens. 
 ---
 
 ## Regras do Projeto
@@ -75,7 +79,14 @@ Este projeto tem como objetivo desenvolver um **Trading Bot** que utiliza a API 
 
 - Fazer o deploy do código no **Azure App Service**, juntamente com o **GitHub Actions**.
 
-### 5. Documentação e Apresentação:
+### 5. Integração com Docker:
+
+- Fazer o build da **imagem Docker**.
+- Publicar a imagem no **Azure Container Registry**.
+- Realizar o deploy da imagem para o **Azure App Service for Containers**.
+- Pipeline com **GitHub Actions**.
+
+### 6. Documentação e Apresentação:
 
 - Documentar todas as funcionalidades implementadas e os processos de configuração.
 - Apresentar o funcionamento do bot e os relatórios gerados.
